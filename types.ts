@@ -1,25 +1,20 @@
 export interface SearchParams {
-  from: string;
-  to: string;
-  date: string;
+    from: string;
+    to: string;
+    date: string;
+    passengers: number;
 }
 
 export interface Bus {
-  id: string;
-  company: string;
-  departureTime: string;
-  arrivalTime: string;
-  duration: string;
-  price: number;
-  rating: number;
-  availableSeats: number;
-  busType: string;
-  amenities: string[];
-}
-
-export interface Seat {
     id: string;
-    isBooked: boolean;
+    company: string;
+    companyLogoUrl: string;
+    departureTime: string;
+    arrivalTime: string;
+    duration: string;
+    price: number;
+    availableSeats: number;
+    rating: number;
 }
 
 export interface BookingDetails {
@@ -30,8 +25,13 @@ export interface BookingDetails {
 
 export interface Company {
     name: string;
-    rating: number;
-    description: string;
     logoUrl: string;
     imageUrl: string;
+    rating: number;
+    description: string;
+    popularRoutes: string[];
+    contact: {
+        phone: string;
+        email: string;
+    };
 }

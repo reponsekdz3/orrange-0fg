@@ -1,59 +1,68 @@
 import { Company } from './types';
 
-export const CITIES = [
-    "Kigali",
-    "Musanze",
-    "Rubavu",
-    "Huye",
-    "Muhanga",
-    "Rusizi",
-    "Nyagatare",
-    "Rwamagana",
-    "Karongi",
-    "Gicumbi"
+export const RWANDAN_CITIES = [
+    "Kigali", "Musanze", "Rubavu", "Huye", "Gisenyi", "Butare", "Gitarama", "Cyangugu", "Byumba", "Kibungo", "Kibuye", "Nyanza", "Rwamagana"
 ];
 
 export const BUS_COMPANIES: Company[] = [
-    { 
-        name: "Volcano Express", 
-        rating: 4.8, 
-        description: "Ingendo zihuse kandi zizewe mu gihugu hose. Tuguha serivisi nziza ku giciro cyiza.",
-        logoUrl: "https://www.volcanoexpress.co.rw/wp-content/uploads/2021/04/volcano-logo.png",
-        imageUrl: "https://live.staticflickr.com/5017/5448554285_160e13768b_b.jpg"
+    {
+        name: "Volcano Express",
+        logoUrl: "https://www.volcanoexpress.co.rw/wp-content/uploads/2021/05/volcano-logo.png",
+        imageUrl: "https://pbs.twimg.com/media/GH83ALbXcAAR2iA.jpg",
+        rating: 4.5,
+        description: "Volcano Express is a leading transport company in Rwanda, known for its punctuality and excellent customer service. We connect major cities and towns with a modern fleet of buses.",
+        popularRoutes: ["Kigali - Musanze", "Kigali - Rubavu", "Kigali - Huye"],
+        contact: {
+            phone: "+250 788 300 500",
+            email: "info@volcanoexpress.co.rw"
+        }
     },
-    { 
-        name: "Trinity Express", 
-        rating: 4.6, 
-        description: "Dukora ingendo zigana mu Ntara y'i Burasirazuba. Turi vuba, dufite umutekano, kandi twita ku bakiriya.",
-        logoUrl: "https://pbs.twimg.com/profile_images/1366318992290709506/FQDk3O2B_400x400.jpg",
-        imageUrl: "https://fastly.4sqi.net/img/general/600x600/39322046_S703m98QULG-v3JCt0oo9eT1x22jW3QHHQfF1DkdwGA.jpg"
+    {
+        name: "Ritco Ltd",
+        logoUrl: "https://www.jobinrwanda.com/sites/default/files/styles/medium/public/employer_logos/RITCO%20LOGO.jpg?itok=Y-5g2S5i",
+        imageUrl: "https://flash.rw/wp-content/uploads/2023/12/RITCO-BUS-1536x1024.jpg",
+        rating: 4.2,
+        description: "RITCO offers reliable and affordable bus services across Rwanda and to neighboring countries. Our priority is your safety and comfort during your journey.",
+        popularRoutes: ["Kigali - Rusumo", "Kigali - Nyagatare", "Kigali - Cyangugu"],
+        contact: {
+            phone: "+250 788 123 456",
+            email: "contact@ritco.rw"
+        }
     },
-    { 
-        name: "Virunga Express", 
-        rating: 4.5, 
-        description: "Ingendo zawe zigana mu Majyaruguru n'i Burengerazuba, hamwe na Virunga biba byoroshye.",
-        logoUrl: "https://inyarwanda.com/app/webroot/img/201808/artists/990819875-1-66759.jpg?t=1534954471",
-        imageUrl: "https://www.newtimes.co.rw/uploads/imported_images/files/main/articles/2014/11/14163456381.jpg"
+    {
+        name: "Horizon Express",
+        logoUrl: "https://rwandayp.com/img/rw/c/1655208460-71-horizon-express-rwanda.jpg",
+        imageUrl: "https://live.staticflickr.com/65535/51253457593_0556157f13_b.jpg",
+        rating: 4.0,
+        description: "Travel with Horizon Express for a smooth and pleasant experience. We serve a wide range of destinations with a focus on customer satisfaction.",
+        popularRoutes: ["Kigali - Gicumbi", "Kigali - Kibuye", "Rubavu - Musanze"],
+        contact: {
+            phone: "+250 788 987 654",
+            email: "bookings@horizon.rw"
+        }
     },
-    { 
-        name: "Sotra Tours", 
-        rating: 4.3, 
-        description: "Serivisi zo gutwara abantu n'ibintu zizewe. Tugufasha kugera aho ugiye mu mahoro.",
-        logoUrl: "https://pbs.twimg.com/profile_images/1116630321775808512/0B6aQ74l_400x400.png",
-        imageUrl: "https://rwandatransport.com/wp-content/uploads/2021/04/Sotra-Tours-Agency-1.jpg"
+    {
+        name: "Virunga Express",
+        logoUrl: "https://media.licdn.com/dms/image/C560BAQG_vM-1Q2wF5Q/company-logo_200_200/0/1631310659695?e=2147483647&v=beta&t=15W_W7w8-uL6i_9E_yH_s9b9k0uVvJz_h8eZzY9n9Zg",
+        imageUrl: "https://inyarwanda.com/app/webroot/img/201910/images/travels-31571212876.jpg",
+        rating: 4.3,
+        description: "Virunga Express specializes in routes to the Northern and Western provinces, offering comfortable buses and experienced drivers for your travel needs.",
+        popularRoutes: ["Kigali - Musanze", "Musanze - Gisenyi", "Kigali - Gisenyi"],
+        contact: {
+            phone: "+250 788 456 789",
+            email: "support@virunga.rw"
+        }
     },
-    { 
-        name: "Kigali Bus Services (KBS)", 
-        rating: 4.1, 
-        description: "Gutwara abantu n'ibintu mu mujyi wa Kigali no mu nkengero zawo. Turangwa n'isuku n'ubunyangamugayo.",
-        logoUrl: "https://www.kigalitoday.com/IMG/arton48819.jpg",
-        imageUrl: "https://www.ktpress.rw/wp-content/uploads/2021/10/KBS.jpeg"
-    },
-    { 
-        name: "Fidelity Express", 
-        rating: 4.0, 
-        description: "Ingendo zigana mu Majyepfo y'u Rwanda zikorwa neza kandi ku gihe.",
-        logoUrl: "https://media.licdn.com/dms/image/C4D0BAQG0xJ6c0c1Y8A/company-logo_200_200/0/1631308358482?e=2147483647&v=beta&t=o1n4G3V3X2q6y_8n4m_Q2e7r0X_g2x_Y6t6F5E3H5w0",
-        imageUrl: "https://live.staticflickr.com/8323/8126786807_e951a029a8_b.jpg"
+     {
+        name: "Kigali Bus Services",
+        logoUrl: "https://kbs.rw/wp-content/uploads/2021/03/kbs-logo-1.png",
+        imageUrl: "https://kbs.rw/wp-content/uploads/2021/03/DSC_0137-scaled.jpg",
+        rating: 4.1,
+        description: "Kigali Bus Services (KBS) is a key player in Kigali's public transport system, also offering inter-city routes with a focus on efficiency and reliability.",
+        popularRoutes: ["Kigali - Rwamagana", "Kigali - Kayonza", "Kigali - Gitarama"],
+        contact: {
+            phone: "+250 788 350 433",
+            email: "info@kbs.rw"
+        }
     }
 ];

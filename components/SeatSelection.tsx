@@ -1,70 +1,104 @@
 import React, { useState } from 'react';
-import { Bus, Seat } from '../types';
+import { Bus } from '../types';
 
 interface SeatSelectionProps {
     bus: Bus;
-    onConfirm: (selectedSeats: string[], totalPrice: number) => void;
+    onConfirm: (seats: string[], totalPrice: number) => void;
     onCancel: () => void;
 }
 
-const generateSeats = (totalSeats: number): Seat[] => {
-    return Array.from({ length: totalSeats }, (_, i) => ({
-        id: `M${i + 1}`,
-        isBooked: Math.random() > 0.7, // Imyanya yafashwe mu buryo bwa kiswahili
-    }));
+const Seat: React.FC<{ number: string; isSelected: boolean; isOccupied: boolean; onSelect: (number: string) => void; }> = ({ number, isSelected, isOccupied, onSelect }) => {
+    const baseClasses = "w-10 h-10 flex items-center justify-center font-bold rounded-md text-sm transition-all";
+    const occupiedClasses = "bg-gray-300 text-gray-500 cursor-not-allowed";
+    const selectedClasses = "bg-orange-600 text-white scale-110 shadow-lg";
+    const availableClasses = "bg-orange-100 text-orange-800 hover:bg-orange-200 cursor-pointer";
+
+    const getClasses = () => {
+        if (isOccupied) return `${baseClasses} ${occupiedClasses}`;
+        if (isSelected) return `${baseClasses} ${selectedClasses}`;
+        return `${baseClasses} ${availableClasses}`;
+    };
+
+    return (
+        <div className={getClasses()} onClick={() => !isOccupied && onSelect(number)}>
+            {number}
+        </div>
+    );
 };
 
 const SeatSelection: React.FC<SeatSelectionProps> = ({ bus, onConfirm, onCancel }) => {
-    const [seats] = useState<Seat[]>(generateSeats(40));
     const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+    
+    // Simulating some occupied seats
+    const occupiedSeats = React.useMemo(() => {
+        const seats = new Set<string>();
+        const totalSeats = 40;
+        const occupiedCount = totalSeats - bus.availableSeats;
+        for (let i = 0; i < occupiedCount; i++) {
+            const row = String.fromCharCode(65 + Math.floor(Math.random() * 4)); // A, B, C, D
+            const number = Math.floor(Math.random() * 10) + 1;
+            seats.add(`${row}${number}`);
+        }
+        return seats;
+    }, [bus.availableSeats]);
 
-    const handleSeatClick = (seatId: string) => {
-        setSelectedSeats(prev =>
-            prev.includes(seatId)
-                ? prev.filter(s => s !== seatId)
-                : [...prev, seatId]
+    const handleSelectSeat = (seatNumber: string) => {
+        setSelectedSeats(prev => 
+            prev.includes(seatNumber) 
+                ? prev.filter(s => s !== seatNumber)
+                : [...prev, seatNumber]
         );
     };
-    
+
     const totalPrice = selectedSeats.length * bus.price;
 
+    const seatsLayout = Array.from({ length: 10 }, (_, i) => `A${i + 1}`)
+        .concat(Array.from({ length: 10 }, (_, i) => `B${i + 1}`))
+        .concat(Array.from({ length: 10 }, (_, i) => `C${i + 1}`))
+        .concat(Array.from({ length: 10 }, (_, i) => `D${i + 1}`));
+
     return (
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4">Hitamo Imyanya Yawe</h2>
-            <p className="mb-2">{bus.company} - {bus.busType}</p>
-            <div className="border rounded-lg p-4 grid grid-cols-5 gap-2 max-w-sm mx-auto bg-gray-50">
-                <div className="col-span-5 text-right pr-2 text-sm text-gray-500">Imbere</div>
-                {seats.map(seat => (
-                    <button
-                        key={seat.id}
-                        onClick={() => !seat.isBooked && handleSeatClick(seat.id)}
-                        disabled={seat.isBooked}
-                        className={`w-12 h-12 rounded-md text-sm transition-all duration-200
-                            ${seat.isBooked ? 'bg-gray-400 cursor-not-allowed' : ''}
-                            ${selectedSeats.includes(seat.id) ? 'bg-orange-600 text-white ring-2 ring-orange-400' : ''}
-                            ${!seat.isBooked && !selectedSeats.includes(seat.id) ? 'bg-gray-200 hover:bg-orange-200' : ''}
-                        `}
-                    >
-                        {seat.id}
-                    </button>
-                ))}
-            </div>
-            <div className="flex justify-between items-center mt-6">
-                <div>
-                    <h3 className="text-lg font-semibold">Igiciro Cyose: {totalPrice.toLocaleString()} RWF</h3>
-                    <p className="text-sm text-gray-600">{selectedSeats.length} umwanya(imyanya) wahisemo</p>
+        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg mt-8">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800">Hitamo Imyanya</h2>
+            <div className="border-2 border-gray-200 rounded-lg p-4">
+                <div className="bg-gray-100 p-4 rounded-md">
+                    <p className="text-center font-semibold">Imbere</p>
                 </div>
-                <div className="space-x-4">
-                    <button onClick={onCancel} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors">
-                        Subira Inyuma
-                    </button>
-                    <button
-                        onClick={() => onConfirm(selectedSeats, totalPrice)}
-                        disabled={selectedSeats.length === 0}
-                        className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-lg disabled:bg-orange-300 disabled:cursor-not-allowed transition-colors"
-                    >
-                        Emeza
-                    </button>
+                <div className="grid grid-cols-5 gap-2 md:gap-4 mt-4">
+                    {seatsLayout.map((seat, index) => (
+                        <React.Fragment key={seat}>
+                           <Seat
+                                number={seat}
+                                isSelected={selectedSeats.includes(seat)}
+                                isOccupied={occupiedSeats.has(seat)}
+                                onSelect={handleSelectSeat}
+                            />
+                            {(index + 1) % 2 === 0 && (index + 1) % 5 !== 0 && <div className="col-span-1"></div>}
+                        </React.Fragment>
+                    ))}
+                </div>
+            </div>
+
+             <div className="mt-6 flex flex-wrap gap-4 justify-center items-center">
+                <div className="flex items-center space-x-2"><div className="w-5 h-5 rounded bg-orange-100"></div><span>Uhari</span></div>
+                <div className="flex items-center space-x-2"><div className="w-5 h-5 rounded bg-orange-600"></div><span>Wahisemo</span></div>
+                <div className="flex items-center space-x-2"><div className="w-5 h-5 rounded bg-gray-300"></div><span>Wafashwe</span></div>
+            </div>
+
+            <div className="mt-8 border-t pt-6">
+                <div className="flex justify-between items-center">
+                    <div>
+                        <p className="text-lg font-semibold">Imyanya Wahisemo:</p>
+                        <p className="text-orange-600 font-bold text-xl">{selectedSeats.join(', ') || 'Nta n\'umwe'}</p>
+                    </div>
+                     <div>
+                        <p className="text-lg font-semibold">Igiciro Cyose:</p>
+                        <p className="text-orange-600 font-bold text-2xl">{totalPrice.toLocaleString()} RWF</p>
+                    </div>
+                </div>
+                 <div className="flex justify-between mt-8 space-x-4">
+                    <button onClick={onCancel} className="w-full bg-gray-200 text-gray-800 font-bold py-3 px-4 rounded-lg hover:bg-gray-300 transition-colors">Subira Inyuma</button>
+                    <button onClick={() => onConfirm(selectedSeats, totalPrice)} disabled={selectedSeats.length === 0} className="w-full bg-orange-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-orange-700 transition-colors disabled:bg-orange-300 disabled:cursor-not-allowed">Emeza</button>
                 </div>
             </div>
         </div>
