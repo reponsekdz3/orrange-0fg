@@ -1,0 +1,7 @@
+{
+  "name": "Rwanda Bus Booking System",
+  "description": "A comprehensive bus booking platform for all major companies in Rwanda. Users can search for routes, select seats, and book tickets. It also includes a Gemini-powered travel advisor for destination tips.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
